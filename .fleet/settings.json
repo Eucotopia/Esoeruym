@@ -1,0 +1,4 @@
+{
+    "editor.formatOnSave": true,
+    "nodejs.typescript.rebuildOnChanges": true
+}
