@@ -1,9 +1,19 @@
-import { title } from "@/components/primitives";
+'use client'
+import {Popover, PopoverTrigger, PopoverContent, Button} from "@nextui-org/react";
+
 
 export default function PricingPage() {
   return (
-    <div>
-      <h1 className={title()}>Pricing</h1>
-    </div>
+    <Popover placement="right">
+      <PopoverTrigger>
+        <div>adsf</div>
+      </PopoverTrigger>
+      <PopoverContent>
+        <div className="px-1 py-2">
+          <div className="text-small font-bold">Popover Content</div>
+          <div className="text-tiny">This is the popover content</div>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
