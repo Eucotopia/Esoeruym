@@ -1,69 +1,82 @@
-// import {IconifyIconProps} from '@iconify/react'
-// import { useMemo } from 'react'
-// import * as Dropdown from '@radix-ui/react-dropdown-menu'
-// import { Toolbar } from '@/components/ui/Toolbar'
-// import { Surface } from '@/components/ui/Surface'
-// import { DropdownButton, DropdownCategoryTitle } from '@/components/ui/Dropdown'
-// import { Icon } from '@iconify/react'
-//
-// export type ContentTypePickerOption = {
-//   label: string
-//   id: string
-//   type: 'option'
-//   disabled: () => boolean
-//   isActive: () => boolean
-//   onClick: () => void
-//   icon: keyof typeof IconifyIconProps
-// }
-//
-// export type ContentTypePickerCategory = {
-//   label: string
-//   id: string
-//   type: 'category'
-// }
-//
-// export type ContentPickerOptions = Array<ContentTypePickerOption | ContentTypePickerCategory>
-//
-// export type ContentTypePickerProps = {
-//   options: ContentPickerOptions
-// }
-//
-// const isOption = (option: ContentTypePickerOption | ContentTypePickerCategory): option is ContentTypePickerOption =>
-//   option.type === 'option'
-// const isCategory = (option: ContentTypePickerOption | ContentTypePickerCategory): option is ContentTypePickerCategory =>
-//   option.type === 'category'
-//
-// export const ContentTypePicker = ({ options }: ContentTypePickerProps) => {
-//   const activeItem = useMemo(() => options.find(option => option.type === 'option' && option.isActive()), [options])
-//
-//   return (
-//     <Dropdown.Root>
-//       <Dropdown.Trigger asChild>
-//         <Toolbar.Button active={activeItem?.id !== 'paragraph' && !!activeItem?.type}>
-//           <Icon icon={(activeItem?.type === 'option' && activeItem.icon) || 'Pilcrow'} />
-//           <Icon icon="ChevronDown" className="w-2 h-2" />
-//         </Toolbar.Button>
-//       </Dropdown.Trigger>
-//       <Dropdown.Content asChild>
-//         <Surface className="flex flex-col gap-1 px-2 py-4">
-//           {options.map(option => {
-//             if (isOption(option)) {
-//               return (
-//                 <DropdownButton key={option.id} onClick={option.onClick} isActive={option.isActive()}>
-//                   <Icon icon={option.icon} className="w-4 h-4 mr-1" />
-//                   {option.label}
-//                 </DropdownButton>
-//               )
-//             } else if (isCategory(option)) {
-//               return (
-//                 <div className="mt-2 first:mt-0" key={option.id}>
-//                   <DropdownCategoryTitle key={option.id}>{option.label}</DropdownCategoryTitle>
-//                 </div>
-//               )
-//             }
-//           })}
-//         </Surface>
-//       </Dropdown.Content>
-//     </Dropdown.Root>
-//   )
-// }
+import {useMemo} from 'react';
+import {
+    Dropdown,
+    DropdownTrigger,
+    DropdownMenu,
+    DropdownItem,
+    DropdownSection,
+    Button,
+    Link,
+    cn,
+} from "@nextui-org/react";
+import {Icon} from '@iconify/react';
+
+export type ContentTypePickerOption = {
+    label: string;
+    id: string;
+    disabled: () => boolean;
+    isActive: () => boolean;
+    onClick: () => void;
+    icon: string;
+};
+
+export type ContentTypePickerCategory = {
+    label: string;
+    id: string;
+    children: ContentTypePickerOption[];
+};
+
+export type ContentPickerOptions = Array<ContentTypePickerCategory>;
+
+export type ContentTypePickerProps = {
+    options: ContentPickerOptions;
+};
+
+export const ContentTypePicker = ({options}: ContentTypePickerProps) => {
+    const activeItem = useMemo(() => {
+        // Find the active item in the nested structure
+        return options
+            .flatMap(option => option.children)
+            .find(option => option.isActive());
+    }, [options]);
+
+    return (
+        <Dropdown>
+            <DropdownTrigger>
+                <Button
+                    as={Link}
+                    variant="light"
+                    size={"sm"}
+                    color={"default"}
+                    isIconOnly
+                    className={cn({
+                        "text-primary": activeItem?.id !== "paragraph" && activeItem?.id
+                    })}
+                    disableRipple
+                    endContent={<Icon icon={"lucide:chevron-down"} className="w-2 h-2"/>}
+                >
+                    <Icon icon={activeItem?.icon || 'lucide:pilcrow'} fontSize={20}/>
+                </Button>
+            </DropdownTrigger>
+
+            <DropdownMenu variant="faded" aria-label="Content Type Picker Menu">
+                {options.map(category => (
+                    <DropdownSection title={category.label} key={category.id}>
+                        {category.children.map(child => (
+                            <DropdownItem
+                                key={child.id}
+                                onPress={child.onClick}
+                                classNames={{
+                                    base: `data-hover:${child.isActive()}`
+                                }}
+                                startContent={<Icon icon={child.icon} className="w-4 h-4 mr-1"/>}
+                            >
+                                {child.label}
+                            </DropdownItem>
+                        ))}
+                    </DropdownSection>
+                ))}
+            </DropdownMenu>
+        </Dropdown>
+    );
+};

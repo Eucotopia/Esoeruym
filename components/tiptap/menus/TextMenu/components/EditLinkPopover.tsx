@@ -11,8 +11,8 @@ export const EditLinkPopover = ({onSetLink}: EditLinkPopoverProps) => {
     return (
         <Popover showArrow={true}>
             <PopoverTrigger>
-                <Link>
-                    <Icon icon={"lucide:link"} fontSize={30}/>
+                <Link className={"text-default-400"}>
+                    <Icon icon={"lucide:link"} fontSize={20}/>
                 </Link>
             </PopoverTrigger>
             <PopoverContent>

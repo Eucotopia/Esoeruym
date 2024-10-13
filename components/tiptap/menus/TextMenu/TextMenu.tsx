@@ -6,8 +6,12 @@ import {CheckboxGroup} from '@nextui-org/react';
 import TextMenuItem from './components/TextMenuItem';
 import {memo} from 'react'
 import {EditLinkPopover} from './components/EditLinkPopover'
+import {ContentTypePicker} from './components/ContentTypePicker';
+import {FontFamilyPicker} from './components/FontFamilyPicker';
 
 const MemoButton = memo(TextMenuItem)
+const MemoContentTypePicker = memo(ContentTypePicker)
+const MemoFontFamilyPicker = memo(FontFamilyPicker)
 
 export type TextMenuProps = {
     editor: Editor
@@ -18,7 +22,7 @@ export const TextMenu = ({editor}: TextMenuProps) => {
     const states = useTextmenuStates(editor)
     const blockOptions = useTextmenuContentTypes(editor)
     return (
-        < BubbleMenu
+        <BubbleMenu
             tippyOptions={
                 {
                     popperOptions: {
@@ -49,7 +53,11 @@ export const TextMenu = ({editor}: TextMenuProps) => {
             shouldShow={states.shouldShow}
             updateDelay={100}
         >
-            <CheckboxGroup aria-label="Text style options" className="gap-1" orientation="horizontal">
+            <CheckboxGroup aria-label="Text style options"
+                           className="gap-1 rounded-md flex-wrap shadow-lg bg-content1 px-1"
+                           orientation="horizontal">
+                <MemoContentTypePicker options={blockOptions}/>
+                <MemoFontFamilyPicker onChange={commands.onSetFont} value={states.currentFont || ''}/>
                 <MemoButton icon="lucide:bold" value="Bold"
                             isSelected={states.isBold}
                             onClick={commands.onBold}
@@ -61,7 +69,6 @@ export const TextMenu = ({editor}: TextMenuProps) => {
                 <MemoButton icon="lucide:underline" value="Underline"
                             isSelected={states.isUnderline}
                             onClick={commands.onUnderline}
-                            fontSize={30}
                 />
                 <MemoButton icon="lucide:strikethrough" value="Strike"
                             isSelected={states.isStrike}
