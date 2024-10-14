@@ -1,5 +1,5 @@
 import {Icon} from '@iconify/react'
-import {Popover, PopoverContent, PopoverTrigger} from '@nextui-org/react'
+import {Button, Popover, PopoverContent, PopoverTrigger} from '@nextui-org/react'
 import {Link} from "@nextui-org/link";
 import {LinkEditorPanel} from '@/components/tiptap/panels/LinkEditorPanel';
 
@@ -11,9 +11,16 @@ export const EditLinkPopover = ({onSetLink}: EditLinkPopoverProps) => {
     return (
         <Popover showArrow={true}>
             <PopoverTrigger>
-                <Link className={"text-default-400"}>
+                <Button
+                    as={Link}
+                    variant={"light"}
+                    size={"sm"}
+                    color={"default"}
+                    isIconOnly
+                    disableRipple
+                >
                     <Icon icon={"lucide:link"} fontSize={20}/>
-                </Link>
+                </Button>
             </PopoverTrigger>
             <PopoverContent>
                 <LinkEditorPanel onSetLink={onSetLink}/>

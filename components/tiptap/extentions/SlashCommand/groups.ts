@@ -118,6 +118,21 @@ export const GROUPS: Group[] = [
       },
     ],
   },
+  {
+    name: "media",
+    title: "Media",
+    commands: [
+      {
+        name: 'youtube',
+        label: 'Youtube',
+        iconName: 'lucide:youtube',
+        description: 'add youtube',
+        action: editor => {
+          editor.chain().focus().setCodeBlock().run()
+        },
+      }
+    ]
+  }
 //  {
 //    name: 'insert',
 //    title: 'Insert',

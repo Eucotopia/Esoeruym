@@ -129,7 +129,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
             >
                 {
                     props.items.map((group, groupIndex) => (
-                        <ListboxSection title={group.title} showDivider>
+                        <ListboxSection title={group.title} showDivider key={group.title}>
                             {
                                 group.commands.map((command: Command, commandIndex: number) => (
                                     <ListboxItem

@@ -1,8 +1,9 @@
-'use client'
+"use client";
 
-import {isChangeOrigin} from '@tiptap/extension-collaboration'
+import {isChangeOrigin} from "@tiptap/extension-collaboration";
+
 import {
-//    BlockquoteFigure,
+    //    BlockquoteFigure,
     CharacterCount,
     CodeBlock,
     Color,
@@ -12,16 +13,14 @@ import {
     Document,
     Dropcursor,
     Emoji,
-//    Figcaption,
-    FileHandler,
     Focus,
     SmilieReplacer,
     FontFamily,
-//    FontSize,
+    //    FontSize,
     Heading,
     Highlight,
     HorizontalRule,
-//    ImageBlock,
+    //    ImageBlock,
     Link,
     Placeholder,
     Selection,
@@ -29,23 +28,23 @@ import {
     StarterKit,
     Subscript,
     Superscript,
-//    Table,
+    //    Table,
     TableOfContents,
-//    TableCell,
-//    TableHeader,
-//    TableRow,
+    //    TableCell,
+    //    TableHeader,
+    //    TableRow,
     TextAlign,
     TextStyle,
-//    TrailingNode,
+    //    TrailingNode,
     Typography,
     Underline,
     emojiSuggestion,
-//    Columns,
-//    Column,
+    //    Columns,
+    //    Column,
     TaskItem,
     TaskList,
     UniqueID,
-} from '.'
+} from ".";
 
 export const ExtensionKit = () => [
     Document,
@@ -59,13 +58,13 @@ export const ExtensionKit = () => [
     Link.configure({
         openOnClick: false,
         autolink: true,
-        defaultProtocol: 'https',
+        defaultProtocol: "https",
     }),
     Selection,
     HorizontalRule,
     UniqueID.configure({
-        types: ['paragraph', 'heading', 'blockquote', 'codeBlock', 'table'],
-        filterTransaction: transaction => !isChangeOrigin(transaction),
+        types: ["paragraph", "heading", "blockquote", "codeBlock", "table"],
+        filterTransaction: (transaction) => !isChangeOrigin(transaction),
     }),
     StarterKit.configure({
         document: false,
@@ -83,7 +82,7 @@ export const ExtensionKit = () => [
     Details.configure({
         persist: true,
         HTMLAttributes: {
-            class: 'details',
+            class: "details",
         },
     }),
     DetailsContent,
@@ -99,10 +98,10 @@ export const ExtensionKit = () => [
     TableOfContents,
     TextAlign.extend({
         addKeyboardShortcuts() {
-            return {}
+            return {};
         },
     }).configure({
-        types: ['heading', 'paragraph'],
+        types: ["heading", "paragraph"],
     }),
     Subscript,
     Superscript,
@@ -110,14 +109,14 @@ export const ExtensionKit = () => [
     Placeholder.configure({
         includeChildren: true,
         showOnlyCurrent: false,
-        placeholder: () => '',
+        placeholder: () => "",
     }),
     Focus,
     SlashCommand,
     Dropcursor.configure({
         width: 2,
-        class: 'ProseMirror-dropcursor border-black',
+        class: "ProseMirror-dropcursor border-black",
     }),
-]
+];
 
-export default ExtensionKit
+export default ExtensionKit;

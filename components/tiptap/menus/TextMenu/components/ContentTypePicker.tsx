@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import {useMemo} from "react";
 import {
     Dropdown,
     DropdownTrigger,
@@ -9,7 +9,7 @@ import {
     Link,
     cn,
 } from "@nextui-org/react";
-import {Icon} from '@iconify/react';
+import {Icon} from "@iconify/react";
 
 export type ContentTypePickerOption = {
     label: string;
@@ -36,40 +36,44 @@ export const ContentTypePicker = ({options}: ContentTypePickerProps) => {
     const activeItem = useMemo(() => {
         // Find the active item in the nested structure
         return options
-            .flatMap(option => option.children)
-            .find(option => option.isActive());
+            .flatMap((option) => option.children)
+            .find((option) => option.isActive());
     }, [options]);
 
     return (
-        <Dropdown>
+        <Dropdown shouldCloseOnInteractOutside={() => {
+            return true
+        }}>
             <DropdownTrigger>
                 <Button
-                    as={Link}
-                    variant="light"
-                    size={"sm"}
-                    color={"default"}
-                    isIconOnly
-                    className={cn({
-                        "text-primary": activeItem?.id !== "paragraph" && activeItem?.id
-                    })}
                     disableRipple
-                    endContent={<Icon icon={"lucide:chevron-down"} className="w-2 h-2"/>}
+                    isIconOnly
+                    as={Link}
+                    className={cn({
+                        "text-primary": activeItem?.id !== "paragraph" && activeItem?.id,
+                    })}
+                    color={"default"}
+                    endContent={<Icon className="w-2 h-2" icon={"lucide:chevron-down"}/>}
+                    size={"sm"}
+                    variant="light"
                 >
-                    <Icon icon={activeItem?.icon || 'lucide:pilcrow'} fontSize={20}/>
+                    <Icon fontSize={20} icon={activeItem?.icon || "lucide:pilcrow"}/>
                 </Button>
             </DropdownTrigger>
 
-            <DropdownMenu variant="faded" aria-label="Content Type Picker Menu">
-                {options.map(category => (
-                    <DropdownSection title={category.label} key={category.id}>
-                        {category.children.map(child => (
+            <DropdownMenu aria-label="Content Type Picker Menu" variant="faded">
+                {options.map((category) => (
+                    <DropdownSection key={category.id} title={category.label}>
+                        {category.children.map((child) => (
                             <DropdownItem
                                 key={child.id}
-                                onPress={child.onClick}
                                 classNames={{
-                                    base: `data-hover:${child.isActive()}`
+                                    base: `data-hover:${child.isActive()}`,
                                 }}
-                                startContent={<Icon icon={child.icon} className="w-4 h-4 mr-1"/>}
+                                startContent={
+                                    <Icon className="w-4 h-4 mr-1" icon={child.icon}/>
+                                }
+                                onPress={child.onClick}
                             >
                                 {child.label}
                             </DropdownItem>
