@@ -7,6 +7,7 @@ import { CheckboxGroup } from '@nextui-org/react'
 import { getRenderContainer } from '@/lib/utils'
 import { MenuProps } from '@/components/menus/types'
 import { MemoButton } from '@/components/menus/TextMenu'
+import { ImageBlockWidth } from '@/extentions/ImageBlock/components/ImageBlockWidth'
 
 export const ImageBlockMenu = ({ editor, appendTo }: MenuProps): JSX.Element => {
   const menuRef = useRef<HTMLDivElement>(null)
@@ -38,7 +39,7 @@ export const ImageBlockMenu = ({ editor, appendTo }: MenuProps): JSX.Element => 
     (value: number) => {
       editor.chain().focus(undefined, { scrollIntoView: false }).setImageBlockWidth(value).run()
     },
-    [editor],
+    [editor]
   )
   const { isImageCenter, isImageLeft, isImageRight, width } = useEditorState({
     editor,
@@ -102,6 +103,10 @@ export const ImageBlockMenu = ({ editor, appendTo }: MenuProps): JSX.Element => 
           onClick={onAlignImageRight}
         />
       </CheckboxGroup>
+      <ImageBlockWidth
+        value={parseInt(editor.getAttributes('imageBlock').width)}
+        onChange={onWidthChange}
+      />
     </BaseBubbleMenu>
   )
 }

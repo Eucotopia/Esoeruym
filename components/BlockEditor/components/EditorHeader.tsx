@@ -14,11 +14,20 @@ export type EditorHeaderProps = {
   users: EditorUser[]
 }
 
-export const EditorHeader = ({ editor, collabState, users, isSidebarOpen, toggleSidebar }: EditorHeaderProps) => {
+export const EditorHeader = ({
+  editor,
+  collabState,
+  users,
+  isSidebarOpen,
+  toggleSidebar,
+}: EditorHeaderProps) => {
   const { characters, words } = useEditorState({
     editor,
     selector: (ctx): { characters: number; words: number } => {
-      const { characters, words } = ctx.editor?.storage.characterCount || { characters: () => 0, words: () => 0 }
+      const { characters, words } = ctx.editor?.storage.characterCount || {
+        characters: () => 0,
+        words: () => 0,
+      }
 
       return { characters: characters(), words: words() }
     },

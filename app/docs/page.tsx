@@ -30,7 +30,9 @@ export default function DocsPage({ params }: { params: { room: string } }) {
         })
 
         if (!response.ok) {
-          throw new Error('No collaboration token provided, please set TIPTAP_COLLAB_SECRET in your environment')
+          throw new Error(
+            'No collaboration token provided, please set TIPTAP_COLLAB_SECRET in your environment'
+          )
         }
         const data = await response.json()
 
@@ -94,7 +96,7 @@ export default function DocsPage({ params }: { params: { room: string } }) {
           appId: process.env.NEXT_PUBLIC_TIPTAP_COLLAB_APP_ID ?? '',
           token: collabToken,
           document: ydoc,
-        }),
+        })
       )
     }
   }, [setProvider, collabToken, ydoc, room, hasCollab])
@@ -103,7 +105,12 @@ export default function DocsPage({ params }: { params: { room: string } }) {
 
   return (
     <>
-      <BlockEditor aiToken={aiToken ?? undefined} hasCollab={hasCollab} provider={provider} ydoc={ydoc} />
+      <BlockEditor
+        aiToken={aiToken ?? undefined}
+        hasCollab={hasCollab}
+        provider={provider}
+        ydoc={ydoc}
+      />
     </>
   )
 }

@@ -8,7 +8,7 @@ export const GROUPS: Group[] = [
       {
         name: 'aiWriter',
         label: 'AI Writer',
-        iconName: 'Sparkles',
+        iconName: 'lucide:stars',
         description: 'Let AI finish your thoughts',
         shouldBeHidden: editor => editor.isActive('columns'),
         action: editor => editor.chain().focus().setAiWriter().run(),
@@ -16,7 +16,7 @@ export const GROUPS: Group[] = [
       {
         name: 'aiImage',
         label: 'AI Image',
-        iconName: 'Sparkles',
+        iconName: 'lucide:stars',
         description: 'Generate an image from text',
         shouldBeHidden: editor => editor.isActive('columns'),
         action: editor => editor.chain().focus().setAiImage().run(),

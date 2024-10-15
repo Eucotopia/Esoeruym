@@ -1,23 +1,23 @@
-import { Node, ReactNodeViewRenderer } from "@tiptap/react";
+import { Node, ReactNodeViewRenderer } from '@tiptap/react'
 
-import { ImageUpload as ImageUploadComponent } from "./view/ImageUpload";
+import { ImageUpload as ImageUploadComponent } from './view/ImageUpload'
 
-declare module "@tiptap/react" {
+declare module '@tiptap/react' {
   interface Commands<ReturnType> {
     imageUpload: {
-      setImageUpload: () => ReturnType;
-    };
+      setImageUpload: () => ReturnType
+    }
   }
 }
 
 export const ImageUpload = Node.create({
-  name: "imageUpload",
+  name: 'imageUpload',
 
   isolating: true,
 
   defining: true,
 
-  group: "block",
+  group: 'block',
 
   draggable: true,
 
@@ -30,11 +30,11 @@ export const ImageUpload = Node.create({
       {
         tag: `div[data-type="${this.name}"]`,
       },
-    ];
+    ]
   },
 
   renderHTML() {
-    return ["div", { "data-type": this.name }];
+    return ['div', { 'data-type': this.name }]
   },
 
   addCommands() {
@@ -43,12 +43,12 @@ export const ImageUpload = Node.create({
         () =>
         ({ commands }) =>
           commands.insertContent(`<div data-type="${this.name}"></div>`),
-    };
+    }
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(ImageUploadComponent);
+    return ReactNodeViewRenderer(ImageUploadComponent)
   },
-});
+})
 
-export default ImageUpload;
+export default ImageUpload

@@ -52,11 +52,14 @@ export const SlashCommand = Extension.create({
           // TODO
           const isInColumn = this.editor.isActive('column')
 
-          const afterContent = $from.parent.textContent?.substring($from.parent.textContent?.indexOf('/'))
+          const afterContent = $from.parent.textContent?.substring(
+            $from.parent.textContent?.indexOf('/')
+          )
           const isValidAfterContent = !afterContent?.endsWith('  ')
 
           return (
-            ((isRootDepth && isParagraph && isStartOfNode) || (isInColumn && isParagraph && isStartOfNode)) &&
+            ((isRootDepth && isParagraph && isStartOfNode) ||
+              (isInColumn && isParagraph && isStartOfNode)) &&
             isValidAfterContent
           )
         },
@@ -66,7 +69,8 @@ export const SlashCommand = Extension.create({
 
           const end = $from.pos
           const from = $head?.nodeBefore
-            ? end - ($head.nodeBefore.text?.substring($head.nodeBefore.text?.indexOf('/')).length ?? 0)
+            ? end -
+              ($head.nodeBefore.text?.substring($head.nodeBefore.text?.indexOf('/')).length ?? 0)
             : $from.start()
 
           const tr = state.tr.deleteRange(from, end)
@@ -87,12 +91,16 @@ export const SlashCommand = Extension.create({
                 if (item.aliases) {
                   const aliases = item.aliases.map(alias => alias.toLowerCase().trim())
 
-                  return labelNormalized.includes(queryNormalized) || aliases.includes(queryNormalized)
+                  return (
+                    labelNormalized.includes(queryNormalized) || aliases.includes(queryNormalized)
+                  )
                 }
 
                 return labelNormalized.includes(queryNormalized)
               })
-              .filter(command => (command.shouldBeHidden ? !command.shouldBeHidden(this.editor) : true)),
+              .filter(command =>
+                command.shouldBeHidden ? !command.shouldBeHidden(this.editor) : true
+              ),
           }))
 
           const withoutEmptyGroups = withFilteredCommands.filter(group => {

@@ -45,7 +45,7 @@ export const useTextmenuStates = (editor: Editor) => {
 
       return isTextSelected({ editor })
     },
-    [editor],
+    [editor]
   )
 
   return {

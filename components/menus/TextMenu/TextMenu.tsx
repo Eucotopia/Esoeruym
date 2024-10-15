@@ -1,28 +1,28 @@
-import { BubbleMenu, Editor } from "@tiptap/react";
-import { CheckboxGroup } from "@nextui-org/react";
-import { memo } from "react";
+import { BubbleMenu, Editor } from '@tiptap/react'
+import { CheckboxGroup } from '@nextui-org/react'
+import { memo } from 'react'
 
-import { useTextmenuContentTypes } from "./hooks/useTextmenuContentTypes";
-import TextMenuItem from "./components/TextMenuItem";
-import { useTextmenuStates } from "./hooks/useTextmenuStates";
-import { EditLinkPopover } from "./components/EditLinkPopover";
-import { ContentTypePicker } from "./components/ContentTypePicker";
-import { FontFamilyPicker } from "./components/FontFamilyPicker";
+import { useTextmenuContentTypes } from './hooks/useTextmenuContentTypes'
+import TextMenuItem from './components/TextMenuItem'
+import { useTextmenuStates } from './hooks/useTextmenuStates'
+import { EditLinkPopover } from './components/EditLinkPopover'
+import { ContentTypePicker } from './components/ContentTypePicker'
+import { FontFamilyPicker } from './components/FontFamilyPicker'
 
-import { useTextmenuCommands } from "@/components/menus/TextMenu/hooks/useTextmenuCommands";
+import { useTextmenuCommands } from '@/components/menus/TextMenu/hooks/useTextmenuCommands'
 
-export const MemoButton = memo(TextMenuItem);
-const MemoContentTypePicker = memo(ContentTypePicker);
-const MemoFontFamilyPicker = memo(FontFamilyPicker);
+export const MemoButton = memo(TextMenuItem)
+const MemoContentTypePicker = memo(ContentTypePicker)
+const MemoFontFamilyPicker = memo(FontFamilyPicker)
 
 export type TextMenuProps = {
-  editor: Editor;
-};
+  editor: Editor
+}
 
 export const TextMenu = ({ editor }: TextMenuProps) => {
-  const commands = useTextmenuCommands(editor);
-  const states = useTextmenuStates(editor);
-  const blockOptions = useTextmenuContentTypes(editor);
+  const commands = useTextmenuCommands(editor)
+  const states = useTextmenuStates(editor)
+  const blockOptions = useTextmenuContentTypes(editor)
 
   return (
     <BubbleMenu
@@ -31,24 +31,24 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
       shouldShow={states.shouldShow}
       tippyOptions={{
         popperOptions: {
-          placement: "top-start",
+          placement: 'top-start',
           modifiers: [
             {
-              name: "preventOverflow",
+              name: 'preventOverflow',
               options: {
-                boundary: "viewport",
+                boundary: 'viewport',
                 padding: 8,
               },
             },
             {
-              name: "flip",
+              name: 'flip',
               options: {
-                fallbackPlacements: ["bottom-start", "top-end", "bottom-end"],
+                fallbackPlacements: ['bottom-start', 'top-end', 'bottom-end'],
               },
             },
           ],
         },
-        maxWidth: "calc(100vw - 16px)",
+        maxWidth: 'calc(100vw - 16px)',
       }}
       updateDelay={100}
     >
@@ -59,10 +59,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
       >
         <MemoContentTypePicker options={blockOptions} />
 
-        <MemoFontFamilyPicker
-          value={states.currentFont || ""}
-          onChange={commands.onSetFont}
-        />
+        <MemoFontFamilyPicker value={states.currentFont || ''} onChange={commands.onSetFont} />
 
         <MemoButton
           icon="lucide:bold"
@@ -94,14 +91,10 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
           value="Code"
           onClick={commands.onCode}
         />
-        <MemoButton
-          icon="lucide:square-code"
-          value="CodeBlock"
-          onClick={commands.onCodeBlock}
-        />
+        <MemoButton icon="lucide:square-code" value="CodeBlock" onClick={commands.onCodeBlock} />
         {/*TODO bug 未解决*/}
         <EditLinkPopover onSetLink={commands.onLink} />
       </CheckboxGroup>
     </BubbleMenu>
-  );
-};
+  )
+}

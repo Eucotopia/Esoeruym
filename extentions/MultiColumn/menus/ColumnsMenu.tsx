@@ -2,10 +2,10 @@ import { BubbleMenu as BaseBubbleMenu, useEditorState } from '@tiptap/react'
 import { useCallback } from 'react'
 import { sticky } from 'tippy.js'
 import { v4 as uuid } from 'uuid'
-import { MenuProps } from '@nextui-org/react'
 
 import { ColumnLayout } from '../Columns'
 
+import { MenuProps } from '@/components/menus/types'
 import { getRenderContainer } from '@/lib/utils'
 
 export const ColumnsMenu = ({ editor, appendTo }: MenuProps) => {

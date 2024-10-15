@@ -1,54 +1,45 @@
-import DragHandle from "@tiptap-pro/extension-drag-handle-react";
-import { Editor } from "@tiptap/react";
-import { useEffect, useState } from "react";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/react";
+import DragHandle from '@tiptap-pro/extension-drag-handle-react'
+import { Editor } from '@tiptap/react'
+import { useEffect, useState } from 'react'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
 
-import { useData } from "./hooks/useData";
-import useContentItemActions from "./hooks/useContentItemActions";
+import { useData } from './hooks/useData'
+import useContentItemActions from './hooks/useContentItemActions'
 
 export type ContentItemMenuProps = {
-  editor: Editor;
-};
+  editor: Editor
+}
 const items = [
   {
-    key: "new",
-    label: "New file",
+    key: 'new',
+    label: 'New file',
   },
   {
-    key: "copy",
-    label: "Copy link",
+    key: 'copy',
+    label: 'Copy link',
   },
   {
-    key: "edit",
-    label: "Edit file",
+    key: 'edit',
+    label: 'Edit file',
   },
   {
-    key: "delete",
-    label: "Delete file",
+    key: 'delete',
+    label: 'Delete file',
   },
-];
+]
 
 export const ContentItemMenu = ({ editor }: ContentItemMenuProps) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const data = useData();
-  const actions = useContentItemActions(
-    editor,
-    data.currentNode,
-    data.currentNodePos,
-  );
+  const [menuOpen, setMenuOpen] = useState(false)
+  const data = useData()
+  const actions = useContentItemActions(editor, data.currentNode, data.currentNodePos)
 
   useEffect(() => {
     if (menuOpen) {
-      editor.commands.setMeta("lockDragHandle", true);
+      editor.commands.setMeta('lockDragHandle', true)
     } else {
-      editor.commands.setMeta("lockDragHandle", false);
+      editor.commands.setMeta('lockDragHandle', false)
     }
-  }, [editor, menuOpen]);
+  }, [editor, menuOpen])
 
   return (
     <DragHandle
@@ -61,26 +52,26 @@ export const ContentItemMenu = ({ editor }: ContentItemMenuProps) => {
       onNodeChange={data.handleNodeChange}
     >
       <Dropdown
-        type={"listbox"}
-        onOpenChange={(isOpen) => {
-          setMenuOpen(isOpen);
-          editor.commands.setMeta("lockDragHandle", isOpen);
+        type={'listbox'}
+        onOpenChange={isOpen => {
+          setMenuOpen(isOpen)
+          editor.commands.setMeta('lockDragHandle', isOpen)
         }}
       >
         <DropdownTrigger
-          onMouseDown={(e) => {
-            e.stopPropagation();
+          onMouseDown={e => {
+            e.stopPropagation()
           }}
         >
           adsf
           {/*<Icon icon="lucide:grip-vertical" fontSize={40}/>*/}
         </DropdownTrigger>
         <DropdownMenu aria-label="Dynamic Actions" items={items}>
-          {(item) => (
+          {item => (
             <DropdownItem
               key={item.key}
-              className={item.key === "delete" ? "text-danger" : ""}
-              color={item.key === "delete" ? "danger" : "default"}
+              className={item.key === 'delete' ? 'text-danger' : ''}
+              color={item.key === 'delete' ? 'danger' : 'default'}
             >
               {item.label}
             </DropdownItem>
@@ -88,5 +79,5 @@ export const ContentItemMenu = ({ editor }: ContentItemMenuProps) => {
         </DropdownMenu>
       </Dropdown>
     </DragHandle>
-  );
-};
+  )
+}

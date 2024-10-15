@@ -1,2 +1,2 @@
-export * from "./ColorHighlighter";
-export * from "./findColors";
+export * from './ColorHighlighter'
+export * from './findColors'

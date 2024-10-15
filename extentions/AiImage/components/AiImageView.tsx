@@ -3,7 +3,6 @@ import { useCallback, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { v4 as uuid } from 'uuid'
 import { ImageOptions } from '@tiptap-pro/extension-ai'
-
 import * as Dropdown from '@radix-ui/react-dropdown-menu'
 
 import { Button } from '@/components/ui/Button'
@@ -31,7 +30,9 @@ interface Data {
 }
 
 export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrapperProps) => {
-  const aiOptions = editor.extensionManager.extensions.find((ext: Extension) => ext.name === 'ai').options
+  const aiOptions = editor.extensionManager.extensions.find(
+    (ext: Extension) => ext.name === 'ai'
+  ).options
 
   const [data, setData] = useState<Data>({
     text: '',
@@ -81,7 +82,10 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
       setIsFetching(false)
     } catch (errPayload: any) {
       const errorMessage = errPayload?.response?.data?.error
-      const message = errorMessage !== 'An error occurred' ? `An error has occured: ${errorMessage}` : errorMessage
+      const message =
+        errorMessage !== 'An error occurred'
+          ? `An error has occured: ${errorMessage}`
+          : errorMessage
 
       setIsFetching(false)
       toast.error(message)
@@ -108,8 +112,9 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
   }, [deleteNode])
 
   const handleTextareaChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => setData(prevData => ({ ...prevData, text: e.target.value })),
-    [],
+    (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+      setData(prevData => ({ ...prevData, text: e.target.value })),
+    []
   )
 
   const onUndoClick = useCallback(() => {
@@ -117,9 +122,12 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
     setPreviewImage(undefined)
   }, [])
 
-  const createItemClickHandler = useCallback((style: { name: string; label: string; value: string }) => {
-    return () => setData(prevData => ({ ...prevData, imageStyle: style.value as ImageOptions }))
-  }, [])
+  const createItemClickHandler = useCallback(
+    (style: { name: string; label: string; value: string }) => {
+      return () => setData(prevData => ({ ...prevData, imageStyle: style.value as ImageOptions }))
+    },
+    []
+  )
 
   return (
     <NodeViewWrapper data-drag-handle>
@@ -141,12 +149,12 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
             </PanelHeadline>
           </div>
           <Textarea
-            id={textareaId}
-            value={data.text}
-            onChange={handleTextareaChange}
-            placeholder={`Describe the image that you want me to generate.`}
             required
             className="mb-2"
+            id={textareaId}
+            placeholder={`Describe the image that you want me to generate.`}
+            value={data.text}
+            onChange={handleTextareaChange}
           />
           <div className="flex flex-row items-center justify-between gap-1">
             <div className="flex justify-between w-auto gap-1">
@@ -159,11 +167,14 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
                   </Button>
                 </Dropdown.Trigger>
                 <Dropdown.Portal>
-                  <Dropdown.Content side="bottom" align="start" asChild>
+                  <Dropdown.Content asChild align="start" side="bottom">
                     <Surface className="p-2 min-w-[12rem]">
                       {!!data.imageStyle && (
                         <>
-                          <DropdownButton isActive={data.imageStyle === undefined} onClick={onUndoClick}>
+                          <DropdownButton
+                            isActive={data.imageStyle === undefined}
+                            onClick={onUndoClick}
+                          >
                             <Icon name="Undo2" />
                             Reset
                           </DropdownButton>
@@ -172,8 +183,8 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
                       )}
                       {imageStyles.map(style => (
                         <DropdownButton
-                          isActive={style.value === data.imageStyle}
                           key={style.value}
+                          isActive={style.value === data.imageStyle}
                           onClick={createItemClickHandler(style)}
                         >
                           {style.label}
@@ -187,8 +198,8 @@ export const AiImageView = ({ editor, node, getPos, deleteNode }: NodeViewWrappe
             <div className="flex flex-row items-center justify-between gap-1">
               {previewImage && (
                 <Button
-                  variant="ghost"
                   className="text-red-500 hover:bg-red-500/10 hover:text-red-500"
+                  variant="ghost"
                   onClick={discard}
                 >
                   <Icon name="Trash" />

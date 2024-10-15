@@ -2,16 +2,14 @@ import { NodeViewProps, NodeViewWrapper, useEditorState } from '@tiptap/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { v4 as uuid } from 'uuid'
+import * as Dropdown from '@radix-ui/react-dropdown-menu'
 
 import { Button } from '@/components/ui/Button'
 import { Panel, PanelHeadline } from '@/components/ui/Panel'
 import { Textarea } from '@/components/ui/Textarea'
 import { Icon } from '@/components/ui/Icon'
-
 import { AiTone, AiToneOption } from '@/components/BlockEditor/types'
 import { tones } from '@/lib/constants'
-
-import * as Dropdown from '@radix-ui/react-dropdown-menu'
 import { Toolbar } from '@/components/ui/Toolbar'
 import { Surface } from '@/components/ui/Surface'
 import { DropdownButton } from '@/components/ui/Dropdown'
@@ -30,6 +28,7 @@ export const AiWriterView = ({ editor, node, getPos, deleteNode }: NodeViewProps
     editor,
     selector: ctx => {
       const aiStorage = ctx.editor.storage.ai as AiStorage
+
       return {
         isLoading: aiStorage.state === 'loading',
         generatedText: aiStorage.response,
@@ -70,6 +69,7 @@ export const AiWriterView = ({ editor, node, getPos, deleteNode }: NodeViewProps
   const insert = useCallback(() => {
     const from = getPos()
     const to = from + node.nodeSize
+
     editor.chain().focus().aiAccept({ insertAt: { from, to }, append: false }).run()
   }, [editor, getPos, node.nodeSize])
 
@@ -99,8 +99,10 @@ export const AiWriterView = ({ editor, node, getPos, deleteNode }: NodeViewProps
             <>
               <PanelHeadline>Preview</PanelHeadline>
               <div
+                dangerouslySetInnerHTML={{
+                  __html: tryParseToTiptapHTML(generatedText, editor) ?? '',
+                }}
                 className="bg-white dark:bg-black border-l-4 border-neutral-100 dark:border-neutral-700 text-black dark:text-white text-base max-h-[14rem] mb-4 ml-2.5 overflow-y-auto px-4 relative"
-                dangerouslySetInnerHTML={{ __html: tryParseToTiptapHTML(generatedText, editor) ?? '' }}
               />
             </>
           )}
@@ -110,12 +112,12 @@ export const AiWriterView = ({ editor, node, getPos, deleteNode }: NodeViewProps
             </PanelHeadline>
           </div>
           <Textarea
-            id={textareaId}
-            value={data.text}
-            onChange={onTextAreaChange}
-            placeholder={'Tell me what you want me to write about.'}
             required
             className="mb-2"
+            id={textareaId}
+            placeholder={'Tell me what you want me to write about.'}
+            value={data.text}
+            onChange={onTextAreaChange}
           />
           <div className="flex flex-row items-center justify-between gap-1">
             <div className="flex justify-between w-auto gap-1">
@@ -128,12 +130,15 @@ export const AiWriterView = ({ editor, node, getPos, deleteNode }: NodeViewProps
                   </Button>
                 </Dropdown.Trigger>
                 <Dropdown.Portal>
-                  <Dropdown.Content side="bottom" align="start" asChild>
+                  <Dropdown.Content asChild align="start" side="bottom">
                     <Surface className="p-2 min-w-[12rem]">
                       {!!data.tone && (
                         <>
                           <Dropdown.Item asChild>
-                            <DropdownButton isActive={data.tone === undefined} onClick={onUndoClick}>
+                            <DropdownButton
+                              isActive={data.tone === undefined}
+                              onClick={onUndoClick}
+                            >
                               <Icon name="Undo2" />
                               Reset
                             </DropdownButton>
@@ -142,8 +147,11 @@ export const AiWriterView = ({ editor, node, getPos, deleteNode }: NodeViewProps
                         </>
                       )}
                       {tones.map(tone => (
-                        <Dropdown.Item asChild key={tone.value}>
-                          <DropdownButton isActive={tone.value === data.tone} onClick={createItemClickHandler(tone)}>
+                        <Dropdown.Item key={tone.value} asChild>
+                          <DropdownButton
+                            isActive={tone.value === data.tone}
+                            onClick={createItemClickHandler(tone)}
+                          >
                             {tone.label}
                           </DropdownButton>
                         </Dropdown.Item>
@@ -156,8 +164,8 @@ export const AiWriterView = ({ editor, node, getPos, deleteNode }: NodeViewProps
             <div className="flex justify-between w-auto gap-1">
               {generatedText && (
                 <Button
-                  variant="ghost"
                   className="text-red-500 hover:bg-red-500/10 hover:text-red-500"
+                  variant="ghost"
                   onClick={discard}
                 >
                   <Icon name="Trash" />
@@ -165,12 +173,17 @@ export const AiWriterView = ({ editor, node, getPos, deleteNode }: NodeViewProps
                 </Button>
               )}
               {generatedText && (
-                <Button variant="ghost" onClick={insert} disabled={!generatedText}>
+                <Button disabled={!generatedText} variant="ghost" onClick={insert}>
                   <Icon name="Check" />
                   Insert
                 </Button>
               )}
-              <Button variant="primary" onClick={generateText} style={{ whiteSpace: 'nowrap' }} disabled={isLoading}>
+              <Button
+                disabled={isLoading}
+                style={{ whiteSpace: 'nowrap' }}
+                variant="primary"
+                onClick={generateText}
+              >
                 {generatedText ? <Icon name="Repeat" /> : <Icon name="Sparkles" />}
                 {generatedText ? 'Regenerate' : 'Generate text'}
               </Button>

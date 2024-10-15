@@ -29,7 +29,8 @@ export const TableOfContents = memo(({ editor, onItemClick }: TableOfContentsPro
               key={item.id}
               className={cn(
                 'block font-medium text-neutral-500 dark:text-neutral-300 p-1 rounded bg-opacity-10 text-sm hover:text-neutral-800 transition-all hover:bg-black hover:bg-opacity-5 truncate w-full',
-                item.isActive && 'text-neutral-800 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-900',
+                item.isActive &&
+                  'text-neutral-800 bg-neutral-100 dark:text-neutral-100 dark:bg-neutral-900'
               )}
               href={`#${item.id}`}
               style={{ marginLeft: `${1 * item.level - 1}rem` }}

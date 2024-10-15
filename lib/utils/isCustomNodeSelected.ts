@@ -1,6 +1,15 @@
 import { Editor } from '@tiptap/react'
 
-import { AiWriter, AiImage, Figcaption, HorizontalRule, ImageBlock, ImageUpload, Link, CodeBlock } from '@/extentions'
+import {
+  AiWriter,
+  AiImage,
+  Figcaption,
+  HorizontalRule,
+  ImageBlock,
+  ImageUpload,
+  Link,
+  CodeBlock,
+} from '@/extentions'
 import { TableOfContentsNode } from '@/extentions/TableOfContentsNode'
 
 export const isTableGripSelected = (node: HTMLElement) => {
@@ -10,8 +19,10 @@ export const isTableGripSelected = (node: HTMLElement) => {
     container = container.parentElement!
   }
 
-  const gripColumn = container && container.querySelector && container.querySelector('a.grip-column.selected')
-  const gripRow = container && container.querySelector && container.querySelector('a.grip-row.selected')
+  const gripColumn =
+    container && container.querySelector && container.querySelector('a.grip-column.selected')
+  const gripRow =
+    container && container.querySelector && container.querySelector('a.grip-row.selected')
 
   return !!(gripColumn || gripRow)
 }

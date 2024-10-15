@@ -5,8 +5,8 @@ import Document from '@tiptap/extension-document'
 import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import {EditorContent, useEditor} from '@tiptap/react'
-import React, {useCallback} from 'react'
+import { EditorContent, useEditor } from '@tiptap/react'
+import React, { useCallback } from 'react'
 import '@/components/tiptap/styles/index.css'
 
 export default function BlogPage() {
@@ -44,15 +44,13 @@ export default function BlogPage() {
 
     // empty
     if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink()
-        .run()
+      editor.chain().focus().extendMarkRange('link').unsetLink().run()
 
       return
     }
-    console.log("adsfasdf")
+    console.log('adsfasdf')
     // update link
-    editor.chain().focus().extendMarkRange('link').setLink({href: url})
-      .run()
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
   }, [editor])
 
   if (!editor) {
@@ -63,18 +61,18 @@ export default function BlogPage() {
     <>
       <div className="control-group">
         <div className="button-group">
-          <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
+          <button className={editor.isActive('link') ? 'is-active' : ''} onClick={setLink}>
             Set link
           </button>
           <button
-            onClick={() => editor.chain().focus().unsetLink().run()}
             disabled={!editor.isActive('link')}
+            onClick={() => editor.chain().focus().unsetLink().run()}
           >
             Unset link
           </button>
         </div>
       </div>
-      <EditorContent editor={editor}/>
+      <EditorContent editor={editor} />
     </>
   )
 }

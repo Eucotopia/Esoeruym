@@ -35,7 +35,7 @@ export const useBlockEditor = ({
   userName?: string
 }) => {
   const [collabState, setCollabState] = useState<WebSocketStatus>(
-    provider ? WebSocketStatus.Connecting : WebSocketStatus.Disconnected,
+    provider ? WebSocketStatus.Connecting : WebSocketStatus.Disconnected
   )
 
   const editor = useEditor(
@@ -98,7 +98,7 @@ export const useBlockEditor = ({
         },
       },
     },
-    [ydoc, provider],
+    [ydoc, provider]
   )
   const users = useEditorState({
     editor,

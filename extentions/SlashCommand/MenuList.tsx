@@ -26,7 +26,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
 
       props.command(command)
     },
-    [props],
+    [props]
   )
 
   React.useImperativeHandle(ref, () => ({
@@ -108,7 +108,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
         selectItem(groupIndex, commandIndex)
       }
     },
-    [selectItem],
+    [selectItem]
   )
 
   if (!props.items.length) {
@@ -135,12 +135,17 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
                 classNames={{
                   base: `${groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex ? 'bg-default-100/80' : ''}`,
                 }}
-                itemRef={groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex ? 'true' : undefined}
+                itemRef={
+                  groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex
+                    ? 'true'
+                    : undefined
+                }
                 startContent={<Icon icon={command.iconName} />}
                 textValue={command.name}
                 onPress={createCommandClickHandler(groupIndex, commandIndex)}
               >
                 {command.label}
+                {selectedGroupIndex}-{selectedCommandIndex}
               </ListboxItem>
             ))}
           </ListboxSection>

@@ -1,6 +1,5 @@
 'use client'
-import {Popover, PopoverTrigger, PopoverContent, Button} from "@nextui-org/react";
-
+import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react'
 
 export default function PricingPage() {
   return (
@@ -15,5 +14,5 @@ export default function PricingPage() {
         </div>
       </PopoverContent>
     </Popover>
-  );
+  )
 }
