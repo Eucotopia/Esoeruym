@@ -6,10 +6,24 @@ import Link from '@tiptap/extension-link'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import { EditorContent, useEditor } from '@tiptap/react'
-import React, { useCallback } from 'react'
-import '@/components/tiptap/styles/index.css'
+import React, { useCallback, useState } from 'react'
+import { Export } from '@tiptap-pro/extension-export'
+
+import '@/styles/index.css'
 
 export default function BlogPage() {
+  const [isLoading, setIsLoading] = useState(false)
+  const createExport = useCallback(format => () => {
+    setIsLoading(true)
+
+    editor.chain().export({
+      format,
+      onExport(context) {
+        context.download()
+        setIsLoading(false)
+      },
+    }).run()
+  }, [editor])
   const editor = useEditor({
     editable: true,
     extensions: [
@@ -22,6 +36,10 @@ export default function BlogPage() {
         autolink: true,
         defaultProtocol: 'https',
       }),
+      Export.configure({
+        appId: 'your-app-id',
+        token: 'your-jwt',
+      }),
     ],
     content: `
         <p>
@@ -32,26 +50,9 @@ export default function BlogPage() {
         </p>
       `,
   })
-
-  const setLink = useCallback(() => {
-    const previousUrl = editor.getAttributes('link').href
-    const url = window.prompt('URL', previousUrl)
-
-    // cancelled
-    if (url === null) {
-      return
-    }
-
-    // empty
-    if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink().run()
-
-      return
-    }
-    console.log('adsfasdf')
-    // update link
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
-  }, [editor])
+  if (!editor) {
+    return null
+  }
 
   if (!editor) {
     return null
@@ -59,19 +60,6 @@ export default function BlogPage() {
 
   return (
     <>
-      <div className="control-group">
-        <div className="button-group">
-          <button className={editor.isActive('link') ? 'is-active' : ''} onClick={setLink}>
-            Set link
-          </button>
-          <button
-            disabled={!editor.isActive('link')}
-            onClick={() => editor.chain().focus().unsetLink().run()}
-          >
-            Unset link
-          </button>
-        </div>
-      </div>
       <EditorContent editor={editor} />
     </>
   )

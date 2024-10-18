@@ -4,7 +4,7 @@
   }
 
   table {
-    @apply border-collapse border-black/10 rounded box-border w-full;
+    @apply border-collapse border-black/10 rounded box-border w-full ;
     @apply dark:border-white/20;
 
     td,

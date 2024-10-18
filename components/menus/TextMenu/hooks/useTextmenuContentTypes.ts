@@ -28,7 +28,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
               !ctx.editor.isActive('bulletList') &&
               !ctx.editor.isActive('taskList'),
             label: 'Paragraph',
-            type: 'option',
           },
           {
             icon: 'lucide:heading-1',
@@ -44,7 +43,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
             disabled: () => !ctx.editor.can().setHeading({ level: 1 }),
             isActive: () => ctx.editor.isActive('heading', { level: 1 }),
             label: 'Heading 1',
-            type: 'option',
           },
           {
             icon: 'lucide:heading-2',
@@ -60,7 +58,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
             disabled: () => !ctx.editor.can().setHeading({ level: 2 }),
             isActive: () => ctx.editor.isActive('heading', { level: 2 }),
             label: 'Heading 2',
-            type: 'option',
           },
           {
             icon: 'lucide:heading-3',
@@ -76,7 +73,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
             disabled: () => !ctx.editor.can().setHeading({ level: 3 }),
             isActive: () => ctx.editor.isActive('heading', { level: 3 }),
             label: 'Heading 3',
-            type: 'option',
           },
         ],
       },
@@ -92,7 +88,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
             disabled: () => !ctx.editor.can().toggleBulletList(),
             isActive: () => ctx.editor.isActive('bulletList'),
             label: 'Bullet list',
-            type: 'option',
           },
           {
             icon: 'lucide:list-ordered',
@@ -101,7 +96,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
             disabled: () => !ctx.editor.can().toggleOrderedList(),
             isActive: () => ctx.editor.isActive('orderedList'),
             label: 'Numbered list',
-            type: 'option',
           },
           {
             icon: 'lucide:list-todo',
@@ -110,7 +104,6 @@ export const useTextmenuContentTypes = (editor: Editor) => {
             disabled: () => !ctx.editor.can().toggleTaskList(),
             isActive: () => ctx.editor.isActive('taskList'),
             label: 'Todo list',
-            type: 'option',
           },
         ],
       },

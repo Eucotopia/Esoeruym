@@ -12,16 +12,6 @@ import { Image } from '@nextui-org/image'
 
 import { EmojiListProps } from '../types'
 
-export const ListboxWrapper = ({ children }: { children: React.ReactNode }) => (
-  <ScrollShadow
-    hideScrollBar
-    className="max-w-[360px] max-h-[300px] rounded-small border-default-200 dark:border-default-100 border-small"
-    orientation="horizontal"
-  >
-    {children}
-  </ScrollShadow>
-)
-
 const EmojiList = forwardRef(
   (
     props: EmojiListProps,
@@ -104,13 +94,18 @@ const EmojiList = forwardRef(
       return null
     }
 
+    // todo:目前高度设置和背景色以及hover颜色还没有调整好
     return (
-      <ListboxWrapper>
+      <ScrollShadow
+        hideScrollBar
+        className="max-w-[300px] h-[400px] overflow-auto"
+        orientation="horizontal"
+      >
         <Listbox
           aria-label="select emoji"
           classNames={{
-            base: 'max-w-xs data-[hover=true]:bg-default-100/80',
-            list: 'max-h-[300px] overflow-scroll',
+            base: 'max-w-xs data-[hover=true]:bg-content2 bg-content1',
+            list: 'max-h-[300px] overflow-y-auto',
           }}
           items={props.items}
           variant="flat"
@@ -120,7 +115,7 @@ const EmojiList = forwardRef(
               key={item.name}
               aria-label={item.name}
               classNames={{
-                base: `${index == selectedIndex ? 'bg-default-100/80' : ''}`,
+                base: `${index == selectedIndex ? 'bg-content2' : ''}`,
               }}
               data-emoji-name={item.name}
               startContent={
@@ -139,7 +134,7 @@ const EmojiList = forwardRef(
             </ListboxItem>
           ))}
         </Listbox>
-      </ListboxWrapper>
+      </ScrollShadow>
     )
   }
 )

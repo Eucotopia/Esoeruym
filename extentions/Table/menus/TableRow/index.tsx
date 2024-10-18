@@ -48,17 +48,17 @@ export const TableRowMenu = React.memo(({ editor, appendTo }: MenuProps): JSX.El
       }}
       updateDelay={0}
     >
-      <Listbox aria-label="Actions" className={'bg-content2 rounded-md'}>
+      <Listbox aria-label="Actions" className={'bg-content1 rounded-md'}>
         <ListboxItem
           key="Add row before"
-          startContent={<Icon height={18} icon="bi:align-top" width={18} />}
+          startContent={<Icon fontSize={18} icon="lucide:align-vertical-distribute-start" />}
           onPress={onAddRowBefore}
         >
           Add row before
         </ListboxItem>
         <ListboxItem
           key="Add row after"
-          startContent={<Icon height={18} icon="bi:align-bottom" width={18} />}
+          startContent={<Icon fontSize={18} icon="lucide:align-vertical-distribute-end" />}
           onPress={onAddRowAfter}
         >
           Add row after
@@ -67,7 +67,7 @@ export const TableRowMenu = React.memo(({ editor, appendTo }: MenuProps): JSX.El
           key="Delete row"
           className="text-danger"
           color="danger"
-          startContent={<Icon icon="mdi:trash" />}
+          startContent={<Icon fontSize={18} icon="lucide:trash-2" />}
           onPress={onDeleteRow}
         >
           Delete row

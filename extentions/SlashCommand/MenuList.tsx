@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Listbox, ListboxItem } from '@nextui-org/listbox'
-import { ListboxSection } from '@nextui-org/react'
+import { ListboxSection, ScrollShadow } from '@nextui-org/react'
 import { Icon } from '@iconify/react'
 
 import { Command, MenuListProps } from './types'
-
-import { ListboxWrapper } from '@/extentions/EmojiSuggestion/components/EmojiList'
 
 export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
   const scrollContainer = useRef<HTMLDivElement>(null)
@@ -95,10 +93,10 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
   }))
 
   useEffect(() => {
-    const seletedItem = scrollContainer.current?.querySelector('[itemRef="true"]')
+    const selectedItem = scrollContainer.current?.querySelector('[itemRef="true"]')
 
-    if (seletedItem) {
-      seletedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    if (selectedItem) {
+      selectedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
     }
   }, [selectedCommandIndex, selectedGroupIndex])
 
@@ -116,14 +114,15 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
   }
 
   return (
-    <ListboxWrapper>
+    <ScrollShadow
+      ref={scrollContainer}
+      hideScrollBar
+      className="max-w-[300px] h-[400px] overflow-auto"
+      orientation="horizontal"
+    >
       <Listbox
-        ref={scrollContainer}
         aria-label={'Select Slash Commands'}
-        classNames={{
-          base: 'max-w-xs data-[hover=true]:bg-default-100/80',
-          list: 'max-h-[300px] overflow-scroll',
-        }}
+        className={'bg-content1'}
         items={props.items}
         variant="flat"
       >
@@ -133,7 +132,7 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
               <ListboxItem
                 key={command.name}
                 classNames={{
-                  base: `${groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex ? 'bg-default-100/80' : ''}`,
+                  base: `${groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex ? 'bg-content3' : ''}`,
                 }}
                 itemRef={
                   groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex
@@ -145,13 +144,12 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
                 onPress={createCommandClickHandler(groupIndex, commandIndex)}
               >
                 {command.label}
-                {selectedGroupIndex}-{selectedCommandIndex}
               </ListboxItem>
             ))}
           </ListboxSection>
         ))}
       </Listbox>
-    </ListboxWrapper>
+    </ScrollShadow>
   )
 })
 

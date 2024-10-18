@@ -51,33 +51,7 @@ export const ContentItemMenu = ({ editor }: ContentItemMenuProps) => {
       }}
       onNodeChange={data.handleNodeChange}
     >
-      <Dropdown
-        type={'listbox'}
-        onOpenChange={isOpen => {
-          setMenuOpen(isOpen)
-          editor.commands.setMeta('lockDragHandle', isOpen)
-        }}
-      >
-        <DropdownTrigger
-          onMouseDown={e => {
-            e.stopPropagation()
-          }}
-        >
-          adsf
-          {/*<Icon icon="lucide:grip-vertical" fontSize={40}/>*/}
-        </DropdownTrigger>
-        <DropdownMenu aria-label="Dynamic Actions" items={items}>
-          {item => (
-            <DropdownItem
-              key={item.key}
-              className={item.key === 'delete' ? 'text-danger' : ''}
-              color={item.key === 'delete' ? 'danger' : 'default'}
-            >
-              {item.label}
-            </DropdownItem>
-          )}
-        </DropdownMenu>
-      </Dropdown>
+      asdsd
     </DragHandle>
   )
 }
