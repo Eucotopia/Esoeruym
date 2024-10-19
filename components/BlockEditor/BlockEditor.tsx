@@ -48,7 +48,7 @@ export const BlockEditor = ({
           toggleSidebar={leftSidebar.toggle}
           users={users}
         />
-        <EditorContent className="flex-1 overflow-y-auto" editor={editor} />
+        <EditorContent className="flex-1 overflow-y-auto px-2" editor={editor} />
         <ContentItemMenu editor={editor} />
         <LinkMenu appendTo={menuContainerRef} editor={editor} />
         <TextMenu editor={editor} />

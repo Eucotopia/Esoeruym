@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Listbox, ListboxItem } from '@nextui-org/listbox'
-import { ListboxSection, ScrollShadow } from '@nextui-org/react'
+import { ListboxSection } from '@nextui-org/react'
 import { Icon } from '@iconify/react'
 
 import { Command, MenuListProps } from './types'
 
 export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
   const scrollContainer = useRef<HTMLDivElement>(null)
-  const activeItem = useRef<HTMLButtonElement>(null)
   const [selectedGroupIndex, setSelectedGroupIndex] = useState(0)
   const [selectedCommandIndex, setSelectedCommandIndex] = useState(0)
 
@@ -114,42 +113,38 @@ export const MenuList = React.forwardRef((props: MenuListProps, ref) => {
   }
 
   return (
-    <ScrollShadow
+    <Listbox
       ref={scrollContainer}
-      hideScrollBar
-      className="max-w-[300px] h-[400px] overflow-auto"
-      orientation="horizontal"
+      aria-label={'Select Slash Commands'}
+      classNames={{
+        base: 'bg-content1 max-w-[300px]  overflow-scroll',
+      }}
+      items={props.items}
+      variant="flat"
     >
-      <Listbox
-        aria-label={'Select Slash Commands'}
-        className={'bg-content1'}
-        items={props.items}
-        variant="flat"
-      >
-        {props.items.map((group, groupIndex) => (
-          <ListboxSection key={group.title} showDivider title={group.title}>
-            {group.commands.map((command: Command, commandIndex: number) => (
-              <ListboxItem
-                key={command.name}
-                classNames={{
-                  base: `${groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex ? 'bg-content3' : ''}`,
-                }}
-                itemRef={
-                  groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex
-                    ? 'true'
-                    : undefined
-                }
-                startContent={<Icon icon={command.iconName} />}
-                textValue={command.name}
-                onPress={createCommandClickHandler(groupIndex, commandIndex)}
-              >
-                {command.label}
-              </ListboxItem>
-            ))}
-          </ListboxSection>
-        ))}
-      </Listbox>
-    </ScrollShadow>
+      {props.items.map((group, groupIndex) => (
+        <ListboxSection key={group.title} title={group.title}>
+          {group.commands.map((command: Command, commandIndex: number) => (
+            <ListboxItem
+              key={command.name}
+              classNames={{
+                base: `${groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex ? 'bg-content3' : ''}`,
+              }}
+              itemRef={
+                groupIndex == selectedGroupIndex && commandIndex == selectedCommandIndex
+                  ? 'true'
+                  : undefined
+              }
+              startContent={<Icon icon={command.iconName} />}
+              textValue={command.name}
+              onPress={createCommandClickHandler(groupIndex, commandIndex)}
+            >
+              {command.label}
+            </ListboxItem>
+          ))}
+        </ListboxSection>
+      ))}
+    </Listbox>
   )
 })
 

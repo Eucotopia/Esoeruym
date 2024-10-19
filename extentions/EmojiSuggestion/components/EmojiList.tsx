@@ -15,7 +15,7 @@ import { EmojiListProps } from '../types'
 const EmojiList = forwardRef(
   (
     props: EmojiListProps,
-    ref: ForwardedRef<{ onKeyDown: (evt: SuggestionKeyDownProps) => boolean }>
+    ref: ForwardedRef<{ onKeyDown: (evt: SuggestionKeyDownProps) => boolean }>,
   ) => {
     const [selectedIndex, setSelectedIndex] = useState(0)
 
@@ -29,7 +29,7 @@ const EmojiList = forwardRef(
           props.command({ name: item.name })
         }
       },
-      [props]
+      [props],
     )
 
     useImperativeHandle(ref, () => {
@@ -94,49 +94,43 @@ const EmojiList = forwardRef(
       return null
     }
 
-    // todo:目前高度设置和背景色以及hover颜色还没有调整好
     return (
-      <ScrollShadow
-        hideScrollBar
-        className="max-w-[300px] h-[400px] overflow-auto"
-        orientation="horizontal"
+      <Listbox
+        aria-label="select emoji"
+        classNames={{
+          base: 'max-w-[300px] bg-content1 overflow-scroll ',
+          list: 'max-h-[300px] overflow-y-auto',
+        }}
+        items={props.items}
+        variant="flat"
       >
-        <Listbox
-          aria-label="select emoji"
-          classNames={{
-            base: 'max-w-xs data-[hover=true]:bg-content2 bg-content1',
-            list: 'max-h-[300px] overflow-y-auto',
-          }}
-          items={props.items}
-          variant="flat"
-        >
-          {props.items.map((item, index) => (
-            <ListboxItem
-              key={item.name}
-              aria-label={item.name}
-              classNames={{
-                base: `${index == selectedIndex ? 'bg-content2' : ''}`,
-              }}
-              data-emoji-name={item.name}
-              startContent={
-                <>
-                  {item.fallbackImage ? (
-                    <Image alt={'emoji'} height={20} src={item.fallbackImage} width={20} />
-                  ) : (
-                    item.emoji
-                  )}{' '}
-                </>
-              }
-              textValue={item.name}
-              onPress={createClickHandler(index)}
-            >
-              :{item.name}:
-            </ListboxItem>
-          ))}
-        </Listbox>
-      </ScrollShadow>
+        {props.items.map((item, index) => (
+          <ListboxItem
+            key={item.name}
+            aria-label={item.name}
+            classNames={{
+              base: `${index == selectedIndex ? 'bg-content3' : ''}`,
+            }}
+            data-emoji-name={item.name}
+            startContent={
+              <>
+                {item.fallbackImage ? (
+                  <Image alt={'emoji'} height={20} src={item.fallbackImage} width={20} />
+                ) : (
+                  item.emoji
+                )}{' '}
+                {selectItem}
+              </>
+            }
+            textValue={item.name}
+            onPress={createClickHandler(index)}
+          >
+            :{item.name}:
+          </ListboxItem>
+        ))}
+      </Listbox>
     )
-  }
+  },
 )
 
 EmojiList.displayName = 'EmojiList'

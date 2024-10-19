@@ -23,6 +23,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
   const commands = useTextmenuCommands(editor)
   const states = useTextmenuStates(editor)
   const blockOptions = useTextmenuContentTypes(editor)
+
   return (
     <BubbleMenu
       editor={editor}

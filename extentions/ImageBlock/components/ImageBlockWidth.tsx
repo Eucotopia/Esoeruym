@@ -21,20 +21,19 @@ export const ImageBlockWidth = memo(({ onChange, value }: ImageBlockWidthProps) 
   )
 
   return (
-    <>
-      <Slider
-        aria-label="Select brightness"
-        className="w-32"
-        defaultValue={80}
-        maxValue={100}
-        minValue={25}
-        size="sm"
-        value={currentValue}
-        onChange={(value: SliderValue) => {
-          handleChange(value)
-        }}
-      />
-    </>
+    <Slider
+      aria-label="adjust image size"
+      defaultValue={80}
+      maxValue={100}
+      minValue={25}
+      showSteps={true}
+      size="sm"
+      step={25}
+      value={currentValue}
+      onChange={(value: SliderValue) => {
+        handleChange(value)
+      }}
+    />
   )
 })
 

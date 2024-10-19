@@ -36,6 +36,7 @@ export const emojiSuggestion = {
         popup = tippy('body', {
           getReferenceClientRect: props.clientRect as () => DOMRect,
           appendTo: () => document.body,
+          theme: 'slash-command',
           content: component.element,
           showOnCreate: true,
           interactive: true,

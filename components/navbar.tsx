@@ -504,10 +504,9 @@ export const Navbar = () => {
   const { isOpen, onOpenChange, onOpen } = useDisclosure()
 
   const [authFormMode, setAuthFormMode] = useState<AuthFormMode>('SignIn')
-
   return (
     <>
-      <NextUINavbar maxWidth="xl" position="sticky">
+      <NextUINavbar maxWidth={'full'} position="sticky">
         <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
           <NavbarBrand as="li" className="gap-3 max-w-fit">
             <NextLink className="flex justify-start items-center gap-1" href="/">
@@ -563,7 +562,6 @@ export const Navbar = () => {
             <Button onPress={onOpen}>Sign In</Button>
           </NavbarItem>
         </NavbarContent>
-
         <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
           <Link isExternal aria-label="Github" href={siteConfig.links.github}>
             <GithubIcon className="text-default-500" />

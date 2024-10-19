@@ -2,7 +2,7 @@ import { BubbleMenu as BaseBubbleMenu, useEditorState } from '@tiptap/react'
 import React, { useCallback, useRef } from 'react'
 import { Instance, sticky } from 'tippy.js'
 import { v4 as uuid } from 'uuid'
-import { CheckboxGroup } from '@nextui-org/react'
+import { CheckboxGroup, Slider, SliderValue } from '@nextui-org/react'
 
 import { getRenderContainer } from '@/lib/utils'
 import { MenuProps } from '@/components/menus/types'
@@ -78,7 +78,7 @@ export const ImageBlockMenu = ({ editor, appendTo }: MenuProps): JSX.Element => 
       <CheckboxGroup
         ref={menuRef}
         aria-label="Text style options"
-        className="gap-1 rounded-md shadow-lg bg-content1 px-1"
+        className="gap-1 rounded-md shadow-lg bg-content1 p-1"
         orientation="horizontal"
       >
         <MemoButton
@@ -102,11 +102,11 @@ export const ImageBlockMenu = ({ editor, appendTo }: MenuProps): JSX.Element => 
           value="Align image right"
           onClick={onAlignImageRight}
         />
+        <ImageBlockWidth
+          value={parseInt(editor.getAttributes('imageBlock').width)}
+          onChange={onWidthChange}
+        />
       </CheckboxGroup>
-      <ImageBlockWidth
-        value={parseInt(editor.getAttributes('imageBlock').width)}
-        onChange={onWidthChange}
-      />
     </BaseBubbleMenu>
   )
 }
