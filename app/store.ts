@@ -15,7 +15,7 @@ const persistConfig = {
   blacklist: [''],
 }
 // Adding middleware (logger in this case) to monitor actions in the Redux state
-const middleware = [logger]
+const middleware = [logger, authApi.middleware]
 
 // Combine all reducers, combining different slices of state into one main rootReducer
 const rootReducer = combineReducers({

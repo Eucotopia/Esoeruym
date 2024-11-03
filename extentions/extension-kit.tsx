@@ -2,6 +2,7 @@
 
 import { HocuspocusProvider } from '@hocuspocus/provider'
 import { isChangeOrigin } from '@tiptap/extension-collaboration'
+import * as Y from 'yjs'
 
 import API from '../lib/api'
 
@@ -58,6 +59,7 @@ import {
 interface ExtensionKitProps {
   provider?: HocuspocusProvider | null
 }
+const doc = new Y.Doc()
 
 export const ExtensionKit = ({ provider }: ExtensionKitProps) => [
   Document,

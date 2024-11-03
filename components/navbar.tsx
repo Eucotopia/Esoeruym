@@ -24,7 +24,7 @@ import {
   ModalBody,
   Tooltip,
 } from '@nextui-org/react'
-import React, { useState } from 'react'
+import React, { ChangeEvent, useCallback, useState } from 'react'
 import { Divider } from '@nextui-org/divider'
 import { AnimatePresence, domAnimation, LazyMotion, m } from 'framer-motion'
 import { Icon } from '@iconify/react'
@@ -33,6 +33,7 @@ import { ModalFooter, ModalHeader } from '@nextui-org/modal'
 import { siteConfig } from '@/config/site'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { TwitterIcon, GithubIcon, DiscordIcon, Logo } from '@/components/icons'
+import { LoginCredentialsType, useAuthenticateUserMutation } from '@/feature/api/authApi'
 
 // extends Omit<InputProps, 'type'> 表示继承 InputProps 但是排除 type 属性
 interface PasswordInputProps extends Omit<InputProps, 'type'> {
@@ -87,7 +88,7 @@ const SignUp: React.FC<authFormProps> = ({ setAuthFormMode }) => {
         {props.children}
       </m.h1>
     ),
-    [page]
+    [page],
   )
 
   const titleContent = React.useMemo(() => {
@@ -204,7 +205,6 @@ const SignUp: React.FC<authFormProps> = ({ setAuthFormMode }) => {
           >
             {page === 0 && (
               <Input
-                autoFocus
                 isRequired
                 label="Email Address"
                 name="email"
@@ -219,7 +219,6 @@ const SignUp: React.FC<authFormProps> = ({ setAuthFormMode }) => {
             )}
             {page === 1 && (
               <Input
-                autoFocus
                 isRequired
                 endContent={
                   <button type="button" onClick={togglePasswordVisibility}>
@@ -249,7 +248,6 @@ const SignUp: React.FC<authFormProps> = ({ setAuthFormMode }) => {
             )}
             {page === 2 && (
               <Input
-                autoFocus
                 isRequired
                 endContent={
                   <button type="button" onClick={toggleConfirmPasswordVisibility}>
@@ -300,11 +298,27 @@ const SignUp: React.FC<authFormProps> = ({ setAuthFormMode }) => {
 
 const SignIn: React.FC<authFormProps> = ({ setAuthFormMode }) => {
   const [isFormVisible, setIsFormVisible] = React.useState(false)
+  const [authenticateUser, { isLoading: isAuthenticateUserLoading }] = useAuthenticateUserMutation()
+  const [authenticateUserState, setAuthenticateUserState] = useState<LoginCredentialsType>({
+    email: '',
+    password: '',
+  })
 
+  const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) =>
+    setAuthenticateUserState(prev => ({
+      ...prev,
+      [name]: value,
+    }))
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const auth = await authenticateUser(authenticateUserState).unwrap()
+  }
   const variants = {
     visible: { opacity: 1, y: 0 },
     hidden: { opacity: 0, y: 10 },
   }
+
   // flex: 使得子元素默认水平排列
   // items-center:垂直方向居中对齐
   // shrink-0 阻止内容收缩，即便容器变小，OR 文本依旧保持大小
@@ -331,11 +345,25 @@ const SignIn: React.FC<authFormProps> = ({ setAuthFormMode }) => {
               exit="hidden"
               initial="hidden"
               variants={variants}
-              onSubmit={e => e.preventDefault()}
+              onSubmit={handleSubmit}
             >
-              <Input autoFocus label="Email Address" name="email" type="email" variant="bordered" />
-              <Input label="Password" name="password" type="password" variant="bordered" />
-              <Button color="primary" type="submit">
+              <Input
+                label="Email Address"
+                name="email"
+                type="email"
+                value={authenticateUserState.email}
+                variant="bordered"
+                onChange={handleChange}
+              />
+              <Input
+                label="Password"
+                name="password"
+                type="password"
+                value={authenticateUserState.password}
+                variant="bordered"
+                onChange={handleChange}
+              />
+              <Button color="primary" isLoading={isAuthenticateUserLoading} type="submit">
                 Log In
               </Button>
               {orDivider}
@@ -504,6 +532,7 @@ export const Navbar = () => {
   const { isOpen, onOpenChange, onOpen } = useDisclosure()
 
   const [authFormMode, setAuthFormMode] = useState<AuthFormMode>('SignIn')
+
   return (
     <>
       <NextUINavbar maxWidth={'full'} position="sticky">
@@ -520,7 +549,7 @@ export const Navbar = () => {
                 <NextLink
                   className={clsx(
                     linkStyles({ color: 'foreground' }),
-                    'data-[active=true]:text-primary data-[active=true]:font-medium'
+                    'data-[active=true]:text-primary data-[active=true]:font-medium',
                   )}
                   color="foreground"
                   href={item.href}

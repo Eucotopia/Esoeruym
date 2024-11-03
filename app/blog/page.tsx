@@ -21,37 +21,19 @@ export default function BlogPage() {
         document: doc,
       }),
       Export.configure({
-        appId: 'ok08z0e9',
+        appId: '7me3og69',
         token:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MjkzMTAxODIsImV4cCI6MTc2MDg0NjE4MiwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.isC64t4pTGtaoOLkRF2S0TuDr-Z3JWgvaIEzIiC7Z3Y',
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzA1MjY4OTEsIm5iZiI6MTczMDUyNjg5MSwiZXhwIjoxNzMwNjEzMjkxLCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiI3bWUzb2c2OSJ9.X2DQAhQQZ835OVQB4KEClIyiE5B5Dz14yUfo2TTXY38',
       }),
     ],
   })
-  const createExport = useCallback(
-    format => () => {
-      setIsLoading(true)
-
-      editor
-        .chain()
-        .export({
-          format,
-          onExport(context) {
-            context.download()
-            setIsLoading(false)
-          },
-        })
-        .run()
-    },
-    [editor],
-  )
-
   // Connect to your Collaboration server
   useEffect(() => {
     const provider = new TiptapCollabProvider({
-      name: 'document.name', // Unique document identifier for syncing. This is your document name.
-      appId: 'ok08z0e9',
+      name: 'liwei', // Unique document identifier for syncing. This is your document name.
+      appId: '7me3og69',
       token:
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MjkzMTAxODIsImV4cCI6MTc2MDg0NjE4MiwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.isC64t4pTGtaoOLkRF2S0TuDr-Z3JWgvaIEzIiC7Z3Y',
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzA1MjY4OTEsIm5iZiI6MTczMDUyNjg5MSwiZXhwIjoxNzMwNjEzMjkxLCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiI3bWUzb2c2OSJ9.X2DQAhQQZ835OVQB4KEClIyiE5B5Dz14yUfo2TTXY38',
       document: doc,
       // The onSynced callback ensures initial content is set only once using editor.setContent(), preventing repetitive content loading on editor syncs.
       onSynced() {
@@ -71,15 +53,6 @@ export default function BlogPage() {
   }
   return (
     <>
-      <div className="control-group">
-        <div className="button-group">
-          <button disabled={editor.isEmpty} onClick={createExport('docx')}>Export to Word</button>
-          <button disabled={editor.isEmpty} onClick={createExport('odt')}>Export to ODT</button>
-          <button disabled={editor.isEmpty} onClick={createExport('md')}>Export to Markdown</button>
-          <button disabled={editor.isEmpty} onClick={createExport('gfm')}>Export to GitHub Flavoured Markdown</button>
-        </div>
-        {isLoading && <div className="hint purple-spinner">Processing...</div>}
-      </div>
       <EditorContent editor={editor} />
     </>
   )

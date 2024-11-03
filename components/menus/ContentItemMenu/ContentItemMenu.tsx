@@ -10,29 +10,38 @@ import useContentItemActions from './hooks/useContentItemActions'
 export type ContentItemMenuProps = {
   editor: Editor
 }
-const items = [
-  {
-    key: 'new',
-    label: 'New file',
-  },
-  {
-    key: 'copy',
-    label: 'Copy link',
-  },
-  {
-    key: 'edit',
-    label: 'Edit file',
-  },
-  {
-    key: 'delete',
-    label: 'Delete file',
-  },
-]
 
 export const ContentItemMenu = ({ editor }: ContentItemMenuProps) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const data = useData()
   const actions = useContentItemActions(editor, data.currentNode, data.currentNodePos)
+
+  const items = [
+    {
+      key: 'clear formatting',
+      label: 'Clear formatting',
+      icon: 'lucide:remove-formatting',
+      onPress: actions.resetTextFormatting,
+    },
+    {
+      key: 'copy to clipboard',
+      label: 'Copy to clipboard',
+      icon: 'lucide:clipboard',
+      onPress: actions.copyNodeToClipboard,
+    },
+    {
+      key: 'duplicate',
+      label: 'Duplicate',
+      icon: 'lucide:copy',
+      onPress: actions.duplicateNode,
+    },
+    {
+      key: 'delete',
+      label: 'Delete',
+      icon: 'lucide:trash-2',
+      onPress: actions.deleteNode,
+    },
+  ]
 
   useEffect(() => {
     if (menuOpen) {
@@ -58,37 +67,17 @@ export const ContentItemMenu = ({ editor }: ContentItemMenuProps) => {
             <Icon fontSize={20} icon="lucide:grip-vertical" />
           </Button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="Static Actions">
-          <DropdownItem
-            key="clear formatting"
-            startContent={<Icon icon="lucide:remove-formatting" />}
-            onPress={actions.resetTextFormatting}
-          >
-            Clear formatting
-          </DropdownItem>
-          <DropdownItem
-            key="copy to clipboard"
-            startContent={<Icon icon="lucide:clipboard" />}
-            onPress={actions.copyNodeToClipboard}
-          >
-            Copy to clipboard
-          </DropdownItem>
-          <DropdownItem
-            key="duplicate"
-            startContent={<Icon icon="lucide:copy" />}
-            onPress={actions.duplicateNode}
-          >
-            Duplicate
-          </DropdownItem>
-          <DropdownItem
-            key="delete"
-            className="text-danger"
-            color="danger"
-            startContent={<Icon icon="lucide:trash-2" />}
-            onPress={actions.deleteNode}
-          >
-            Delete
-          </DropdownItem>
+        <DropdownMenu aria-label="Static Actions" items={items}>
+          {item => (
+            <DropdownItem
+              key={item.key}
+              color={item.key === 'delete' ? 'danger' : 'default'}
+              startContent={<Icon icon={item.icon} />}
+              onPress={item.onPress}
+            >
+              {item.label}
+            </DropdownItem>
+          )}
         </DropdownMenu>
       </Dropdown>
     </DragHandle>

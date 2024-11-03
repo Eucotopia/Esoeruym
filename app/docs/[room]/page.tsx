@@ -5,6 +5,7 @@ import 'iframe-resizer/js/iframeResizer.contentWindow'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Doc as YDoc } from 'yjs'
+import { useDisclosure } from '@nextui-org/react'
 
 import { BlockEditor } from '@/components/BlockEditor'
 
@@ -15,6 +16,8 @@ export default function DocsPage({ params }: { params: { room: string } }) {
   const searchParams = useSearchParams()
 
   const hasCollab = parseInt(searchParams?.get('noCollab') as string) !== 1 && collabToken !== null
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   const { room } = params
 
@@ -108,8 +111,11 @@ export default function DocsPage({ params }: { params: { room: string } }) {
       <BlockEditor
         aiToken={aiToken ?? undefined}
         hasCollab={hasCollab}
+        isOpen={isOpen}
         provider={provider}
+        room={'12312'}
         ydoc={ydoc}
+        onOpenChange={onOpenChange}
       />
     </>
   )

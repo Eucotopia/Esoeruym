@@ -2,11 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { RootState } from '@/app/store'
 import { AuthUser } from '@/feature/auth/authSlice'
+import { ResultResponse } from '@/types'
 
 export type LoginCredentialsType = {
-  username: string
+  email: string
   password: string
 }
+
 export const baseUrl = 'http://localhost:8080'
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -31,6 +33,14 @@ export const authApi = createApi({
         method: 'POST',
         body: credentials,
       }),
+      transformResponse: (response: ResultResponse<AuthUser>) => {
+        if (response.code === 2002) {
+          return response.data
+        } else {
+          alert(`Login failed: ${response.message}`)
+          throw new Error(response.message)
+        }
+      },
     }),
   }),
 })

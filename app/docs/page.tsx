@@ -5,18 +5,21 @@ import 'iframe-resizer/js/iframeResizer.contentWindow'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Doc as YDoc } from 'yjs'
+import { Button, useDisclosure } from '@nextui-org/react'
 
 import { BlockEditor } from '@/components/BlockEditor'
 
-export default function DocsPage({ params }: { params: { room: string } }) {
+export default function DocsPage() {
   const [provider, setProvider] = useState<TiptapCollabProvider | null>(null)
-  const [collabToken, setCollabToken] = useState<string | null | undefined>()
+  const [collabToken, setCollabToken] = useState<string | null | undefined>("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzA1MjcxODYsIm5iZiI6MTczMDUyNzE4NiwiZXhwIjoxNzMwNjEzNTg2LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiI3bWUzb2c2OSJ9.YfzgIb6NAXqMAZH3I-XrHGcexCOnzq3tFa8eR2qunNM")
   const [aiToken, setAiToken] = useState<string | null | undefined>()
   const searchParams = useSearchParams()
 
   const hasCollab = parseInt(searchParams?.get('noCollab') as string) !== 1 && collabToken !== null
 
-  const { room } = params
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
+  const room = '123123'
 
   useEffect(() => {
     // fetch data
@@ -90,6 +93,7 @@ export default function DocsPage({ params }: { params: { room: string } }) {
 
   useLayoutEffect(() => {
     if (hasCollab && collabToken) {
+      console.log('collab token', collabToken)
       setProvider(
         new TiptapCollabProvider({
           name: `${process.env.NEXT_PUBLIC_COLLAB_DOC_PREFIX}${room}`,
@@ -105,11 +109,15 @@ export default function DocsPage({ params }: { params: { room: string } }) {
 
   return (
     <>
+      <Button onPress={onOpen}>asdf</Button>
       <BlockEditor
         aiToken={aiToken ?? undefined}
         hasCollab={hasCollab}
+        isOpen={isOpen}
         provider={provider}
+        room={room}
         ydoc={ydoc}
+        onOpenChange={onOpenChange}
       />
     </>
   )
