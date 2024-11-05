@@ -1,9 +1,9 @@
 import { useEditorState } from '@tiptap/react'
 import React from 'react'
-import { Avatar, AvatarGroup, cn, Tooltip } from '@nextui-org/react'
+import { Avatar, AvatarGroup, Tooltip } from '@nextui-org/react'
 
 import { EditorHeaderProps } from '@/components/BlockEditor/components/EditorHeader'
-import { getConnectionText } from '@/lib/utils'
+import { getCollabStateColor } from '@/lib/utils'
 import { EditorUser } from '@/components/BlockEditor/types'
 
 export const EditorFooter: React.FC<EditorHeaderProps> = ({ editor, collabState, users }) => {
@@ -29,74 +29,44 @@ export const EditorFooter: React.FC<EditorHeaderProps> = ({ editor, collabState,
           {characters} {characters === 1 ? 'character' : 'characters'}
         </div>
       </div>
-      <div className="flex items-center gap-2 mr-2">
-        <div
-          className={cn('w-2 h-2 rounded-full', {
-            'bg-yellow-500 dark:bg-yellow-400': collabState === 'connecting',
-            'bg-green-500 dark:bg-green-400': collabState === 'connected',
-            'bg-red-500 dark:bg-red-400': collabState === 'disconnected',
-          })}
-        />
-        <span className="max-w-[4rem] text-xs text-neutral-500 dark:text-neutral-400 font-semibold">
-          {getConnectionText(collabState)}
-        </span>
-      </div>
-      {collabState === 'connected' && (
-        <div className="flex flex-row items-center">
-          <div className="relative flex flex-row items-center ml-3">
+      <div className="flex flex-row items-center">
+        <div className="relative flex flex-row items-center ml-3">
+          <AvatarGroup isBordered max={5} size="sm" total={users.length}>
             {users.slice(0, 3).map((user: EditorUser) => (
-              <div key={user.clientId} className="-ml-3">
-                <AvatarGroup
-                  isBordered
-                  max={3}
-                  renderCount={count => (
-                    <p className="text-small text-foreground font-medium ms-2">+{count} others</p>
-                  )}
-                  total={10}
-                >
-                  <Tooltip
-                    closeDelay={0}
-                    content={user.name}
-                    delay={0}
-                    motionProps={{
-                      variants: {
-                        exit: {
-                          opacity: 0,
-                          transition: {
-                            duration: 0.1,
-                            ease: 'easeIn',
-                          },
-                        },
-                        enter: {
-                          opacity: 1,
-                          transition: {
-                            duration: 0.15,
-                            ease: 'easeOut',
-                          },
-                        },
+              <Tooltip
+                key={user.clientId}
+                closeDelay={0}
+                content={user.name}
+                delay={0}
+                motionProps={{
+                  variants: {
+                    exit: {
+                      opacity: 0,
+                      transition: {
+                        duration: 0.1,
+                        ease: 'easeIn',
                       },
-                    }}
-                  >
-                    <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-                  </Tooltip>
-                  <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-                  <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-                  <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-                  <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
-                  <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
-                </AvatarGroup>
-              </div>
+                    },
+                    enter: {
+                      opacity: 1,
+                      transition: {
+                        duration: 0.15,
+                        ease: 'easeOut',
+                      },
+                    },
+                  },
+                }}
+              >
+                <Avatar
+                  isBordered
+                  color={getCollabStateColor(collabState)}
+                  src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                />
+              </Tooltip>
             ))}
-            {users.length > 3 && (
-              <div className="-ml-3">
-                <div className="flex items-center justify-center w-8 h-8 font-bold text-xs leading-none border border-white dark:border-black bg-[#FFA2A2] rounded-full">
-                  +{users.length - 3}
-                </div>
-              </div>
-            )}
-          </div>
+          </AvatarGroup>
         </div>
-      )}
+      </div>
     </div>
   )
 }

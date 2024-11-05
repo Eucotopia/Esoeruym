@@ -2,6 +2,7 @@
 	"name": "next-app-template",
 	"version": "0.0.1",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "next dev --turbo",
 		"build": "next build",
@@ -85,6 +86,7 @@
 		"i": "^0.3.7",
 		"iframe-resizer": "^4.4.5",
 		"intl-messageformat": "^10.5.0",
+		"jsonwebtoken": "^9.0.2",
 		"lodash": "^4.17.21",
 		"lowlight": "^3.1.0",
 		"match-sorter": "^6.3.4",
@@ -107,6 +109,7 @@
 		"yjs": "^13.6.19"
 	},
 	"devDependencies": {
+		"@next/eslint-plugin-next": "^15.0.2",
 		"@types/jsonwebtoken": "^9.0.6",
 		"@types/lodash.debounce": "^4.0.9",
 		"@types/node": "20.5.7",
@@ -123,6 +126,7 @@
 		"eslint-config-prettier": "^8.2.0",
 		"eslint-plugin-import": "^2.26.0",
 		"eslint-plugin-jsx-a11y": "^6.4.1",
+		"eslint-plugin-next": "^0.0.0",
 		"eslint-plugin-node": "^11.1.0",
 		"eslint-plugin-prettier": "^5.2.1",
 		"eslint-plugin-react": "^7.23.2",

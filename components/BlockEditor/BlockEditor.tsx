@@ -24,7 +24,7 @@ interface EditArticleProps {
   isOpen: boolean
   onOpenChange: () => void
   hasCollab?: boolean
-  room: string
+  room?: string
 }
 
 export const BlockEditor: React.FC<EditArticleProps> = ({
@@ -33,7 +33,6 @@ export const BlockEditor: React.FC<EditArticleProps> = ({
   provider,
   isOpen,
   onOpenChange,
-  room
 }) => {
   const menuContainerRef = useRef(null)
 
@@ -74,7 +73,10 @@ export const BlockEditor: React.FC<EditArticleProps> = ({
                 />
               </ModalHeader>
               <ModalBody>
-                <EditorContent className="flex-1 overflow-y-auto scrollbar-hide " editor={editor} />
+                <EditorContent
+                  className=" overflow-y-auto scrollbar-hide min-h-96"
+                  editor={editor}
+                />
                 <ContentItemMenu editor={editor} />
                 <LinkMenu appendTo={menuContainerRef} editor={editor} />
                 <TextMenu editor={editor} />
